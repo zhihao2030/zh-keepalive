@@ -1,5 +1,8 @@
 <template>
-  <router-view />
+  <Header />
+  <router-view v-slot="{ Components, route }">
+    <Component :is="Components" :key="route.fullPath" />
+  </router-view>
 </template>
 <script setup lang="ts"></script>
 

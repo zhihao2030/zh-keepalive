@@ -7,17 +7,31 @@
     <el-table-column prop="address" label="Address" width="600" />
     <el-table-column prop="zip" label="Zip" width="120" />
     <el-table-column fixed="right" label="Operations" width="120">
-      <template #default>
-        <el-button link type="primary" size="small" @click="handleClick">Detail</el-button>
-        <el-button link type="primary" size="small">Edit</el-button>
+      <template #default="{ row }">
+        <el-button link type="primary" size="small" @click="handleClick(row)">Edit</el-button>
       </template>
     </el-table-column>
   </el-table>
 </template>
 
 <script lang="ts" setup>
-  const handleClick = () => {
-    console.log('click');
+  import { useRouter } from 'vue-router';
+  import { useTagStore } from '/@/store/modules/tabs';
+
+  const router = useRouter();
+  const tabStore = useTagStore();
+  const handleClick = (row) => {
+    const path = `/edit?date=${row.date}`;
+    router.push(path);
+    const tabList = [...tabStore.tableList];
+    const tab = {
+      name: 'edit' + row.date,
+      path,
+    };
+    if (!tabList.find((item) => item.path === tab.path)) {
+      tabStore.updateTableList(tab);
+    }
+    console.log(tabStore.tableList);
   };
 
   const tableData = [

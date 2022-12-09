@@ -1,12 +1,24 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import routes from 'virtual:generated-pages';
+// import routes from 'virtual:generated-pages';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
-routes.push({
-  path: '/',
-  redirect: '/login',
-});
+// routes.push({
+//   path: '/',
+//   redirect: '/login',
+// });
+
+const routes = [
+  {
+    path: '/',
+    component: () => import('../views/home/index.vue'),
+  },
+  {
+    path: '/edit',
+    component: () => import('../views/edit/index.vue'),
+  },
+];
+
 //导入生成的路由数据
 const router = createRouter({
   history: createWebHashHistory(),

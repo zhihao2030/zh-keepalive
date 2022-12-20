@@ -7,16 +7,9 @@
     tabStore.tableList.splice(index, 1);
     router.push(tabs.path);
   };
-  const current = ref();
-  watch(
-    () => router.currentRoute,
-    () => {
-      if (router.currentRoute.value.fullPath) {
-        current.value = router.currentRoute.value.fullPath;
-      }
-    },
-    { deep: true, immediate: true },
-  );
+  const currentPath = computed(() => {
+    return router.currentRoute.value.fullPath;
+  });
 </script>
 
 <template>
@@ -25,7 +18,7 @@
       v-for="(tab, index) in tabStore.tableList"
       :key="tab.path"
       class="mx-1 pointer"
-      :type="current === tab.path ? '' : 'info'"
+      :type="currentPath === tab.path ? '' : 'info'"
       :closable="tab.path !== '/'"
       :disable-transitions="false"
       @close="handleClose(tab, index)"

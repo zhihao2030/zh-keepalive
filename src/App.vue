@@ -1,10 +1,14 @@
 <template>
   <Header />
-  <router-view v-slot="{ Components, route }">
-    <Component :is="Components" :key="route.fullPath" />
+  <router-view v-slot="{ Component, route }">
+    <keep-alive :include="keepAliveList">
+      <Component :is="Component" :key="route.fullPath" />
+    </keep-alive>
   </router-view>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const keepAliveList = ['edit'];
+</script>
 
 <style>
   #app {

@@ -1,4 +1,7 @@
 <template>
+  <h1
+    ><span>当前路由：{{ currentPath }}</span></h1
+  >
   <el-form :model="form" label-width="120px">
     <el-form-item label="Activity name">
       <el-input v-model="form.name" />
@@ -47,9 +50,13 @@
   </el-form>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="edit">
   import { reactive } from 'vue';
-
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
+  const currentPath = computed(() => {
+    return router.currentRoute.value.fullPath;
+  });
   // do not use same name with ref
   const form = reactive({
     name: '',

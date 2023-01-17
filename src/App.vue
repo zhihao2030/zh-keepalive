@@ -1,13 +1,29 @@
 <template>
   <Header />
   <router-view v-slot="{ Component, route }">
-    <keep-alive :include="keepAliveList">
-      <Component :is="Component" :key="route.fullPath" />
-    </keep-alive>
+    <epsKeepAlive :is="Component" :component-key="route.fullPath" :keepAlive="keepAlive" />
   </router-view>
 </template>
 <script setup lang="ts">
-  const keepAliveList = ['edit'];
+  import EpsKeepAlive from '/@/components/epsKeepAlive';
+  import { useKeepAliveStore } from '/@/store/modules/keepAlive';
+
+  const keepAliveStore = useKeepAliveStore();
+  const keepAlive = {
+    includeKey: [''],
+  };
+  watch(
+    () => keepAliveStore.keepAliveList,
+    (v) => {
+      if (v) {
+        keepAlive.includeKey = v;
+      }
+    },
+    {
+      deep: true,
+      immediate: true,
+    },
+  );
 </script>
 
 <style>

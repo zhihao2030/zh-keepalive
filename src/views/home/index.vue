@@ -17,10 +17,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import { useTagStore } from '/@/store/modules/tabs';
+  import { useKeepAliveStore } from '/@/store/modules/keepAlive';
 
+  const keepAliveStore = useKeepAliveStore();
   const router = useRouter();
+  const route = useRoute();
   const tabStore = useTagStore();
   const handleClick = (row) => {
     const path = `/edit?date=${row.date}`;
@@ -36,6 +39,14 @@
     console.log(tabStore.tableList);
   };
 
+  watch(
+    () => route.fullPath,
+    (v) => {
+      if (v) {
+        keepAliveStore.setKeepAlive(v);
+      }
+    },
+  );
   const tableData = [
     {
       date: '2016-05-03',

@@ -1,10 +1,14 @@
 <script setup lang="ts">
   import { useTagStore } from '../../store/modules/tabs';
+  import { useKeepAliveStore } from '/@/store/modules/keepAlive';
+
   const router = useRouter();
-  const tabStore = useTagStore();
+  const [tabStore, keepAliveStore] = [useTagStore(), useKeepAliveStore()];
   const handleClose = (tab, index) => {
     const tabs = tabStore.tableList[index - 1];
     tabStore.tableList.splice(index, 1);
+    keepAliveStore.removeKeepAlive(router.currentRoute.value.fullPath);
+    // 关闭页面移出keepalive
     router.push(tabs.path);
   };
   const currentPath = computed(() => {

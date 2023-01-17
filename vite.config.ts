@@ -19,6 +19,13 @@ export default ({ command }: ConfigEnv): UserConfig => {
   }
   return {
     base,
+    define: {
+      __SSR__: `true`,
+      __DEV__: isBuild,
+      __COMPAT__: `false`,
+      __FEATURE_SUSPENSE__: `true`,
+      __FEATURE_PROD_DEVTOOLS__: `false`,
+    },
     resolve: {
       alias: [
         {
